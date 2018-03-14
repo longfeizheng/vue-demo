@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <parent-component></parent-component>
+</div>
+
+</body>
+<script>
+    //创建组件构造器
+    var Child = Vue.extend({
+        template: '<p>This is a child component!</p>'
+    })
+
+    var Parent = Vue.extend({
+        template:'<p>This is a Parent component</p><child-component></child-component>',
+        components:{
+            'child-component':Child
+        }
+    })
+
+    new Vue({
+        el: '#app',
+        components:{
+            //将myComponent组件注册到Vue实例下
+            'parent-component':Parent
+        }
+    })
+</script>
+</html>
