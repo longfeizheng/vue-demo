@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input v-model="msg" />
+    <button v-on:click="notify">Broadcast Event</button>
+    <child-component></child-component>
+</div>
+
+<template id="child-component">
+    <ul>
+        <li v-for="item in messages">
+            父组件录入了信息：{{item}}
+        </li>
+    </ul>
+</template>
+</body>
+<script>
+    Vue.component('child-component',{
+        template:'#child-component',
+        data:function(){
+            return{
+                messages:[]
+            }
+        },
+        events:{
+            'parent-msg':function(msg){
+                this.messages.push(msg)
+            }
+        }
+    })
+
+    new Vue({
+        el:'#app',
+        data:{
+            msg:''
+        },
+        methods:{
+            notify:function(){
+                if(this.msg.trim()){
+                    this.$broadcast('parent-msg',this.msg)
+                }
+            }
+        }
+    })
+</script>
+</html>
